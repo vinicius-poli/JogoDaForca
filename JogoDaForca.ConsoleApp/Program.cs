@@ -25,11 +25,15 @@ class Program
                 letrasAcertadas[caractere] = '_';
             }
 
-            bool jogadorAcertouPalavra = false;               
+            bool jogadorAcertouPalavra = false;
+            bool jogadorPerdeu = false;
 
-            while (jogadorAcertouPalavra == false)
+            int quantidadeErros = 0;               
+
+            while (jogadorAcertouPalavra == false && jogadorPerdeu == false) 
             {
-                Console.WriteLine(letrasAcertadas);
+                Console.WriteLine("Letras acertadas: " + string.Join("", letrasAcertadas));
+                Console.WriteLine("Erros cometidos: " + quantidadeErros);
 
                 Console.Write("Digite uma letra: ");
                 string? strLetra = Console.ReadLine();
@@ -41,7 +45,9 @@ class Program
                     continue;
                 }
 
-                char letraChute = Convert.ToChar(strLetra.ToUpper());
+                char letraChute = char.ToUpper(Convert.ToChar(strLetra));
+
+                bool letraFoiEncontrada = false;
 
                 for (int contador = 0; contador < palavraAleatoria.Length; contador++)
                 {
@@ -50,10 +56,29 @@ class Program
                     if (letraChute == letraAtual)
                     {
                         letrasAcertadas[contador] = letraAtual;
-                    }
+                        letraFoiEncontrada = true;
+                    }                    
                 }
 
+                if (letraFoiEncontrada == false)
+                    quantidadeErros++;
+                    
                 jogadorAcertouPalavra = palavraAleatoria == string.Join("", letrasAcertadas);
+                jogadorPerdeu = quantidadeErros > 5;
+
+                if (jogadorAcertouPalavra)
+                {
+                    Console.WriteLine("-----------------------");
+                    Console.WriteLine($"Você acertou!! A palavra secreta era {palavraAleatoria}.");
+                    Console.WriteLine("-----------------------");
+                }
+
+                else if (jogadorPerdeu)
+                {
+                    Console.WriteLine("-----------------------");
+                    Console.WriteLine("Que azar! Tente novamente!");
+                    Console.WriteLine("-----------------------");
+                }
             }
 
             Console.Write("Deseja continuar o jogo? (S/N) ");

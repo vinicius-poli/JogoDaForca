@@ -16,7 +16,7 @@ class Program
 { 
     static void Main(string[] args)
     {   
-        int categoria = EscolherCategoria();
+        string categoria = EscolherCategoria();
         
         while (true)
         {
@@ -41,51 +41,51 @@ class Program
         Console.WriteLine("-----------------------");
     }
 
-    static int EscolherCategoria()
+    static string EscolherCategoria()
     {   
         ExibirCabecalho();
         Console.WriteLine("Escolha uma categoria:");
         Console.WriteLine("1 - Frutas");
         Console.WriteLine("2 - Animais");
         Console.WriteLine("3 - Países");
-        int categoriaEscolhida = Convert.ToInt32(Console.ReadLine());
+        string? categoriaEscolhida = Console.ReadLine();
         
-        while (categoriaEscolhida != 1 && categoriaEscolhida != 2 && categoriaEscolhida != 3)
+        while (categoriaEscolhida != "1" && categoriaEscolhida != "2" && categoriaEscolhida != "3")
         {
             Console.WriteLine("Categoria Inválida!");
             Console.WriteLine("Escolha uma categoria:");
             Console.WriteLine("1 - Frutas");
             Console.WriteLine("2 - Animais");
             Console.WriteLine("3 - Países");
-            categoriaEscolhida = Convert.ToInt32(Console.ReadLine());
+            categoriaEscolhida = Console.ReadLine();
         }
         
         return categoriaEscolhida;
     }
    
-    static int OpcaoPalavraInteira()
+    static string OpcaoPalavraInteira()
     {
         Console.WriteLine("Deseja tentar auma letra ou a palavra INTEIRA?");
         Console.WriteLine("1- Letra");
         Console.WriteLine("2- Palavra Inteira");
-        int opcaoLetraPalavra = Convert.ToInt32(Console.ReadLine());
+        string? opcaoLetraPalavra = Console.ReadLine();
 
-        while (opcaoLetraPalavra != 1 && opcaoLetraPalavra != 2)
+        while (opcaoLetraPalavra != "1" && opcaoLetraPalavra != "2")
         {
             Console.WriteLine("Digite uma opção válida!");
-            opcaoLetraPalavra = Convert.ToInt32(Console.ReadLine());
+            opcaoLetraPalavra = Console.ReadLine();
         }
 
         return opcaoLetraPalavra;
     }
 
-    static string EscolherPalavraAleatoria(int categoriaEscolhida)
+    static string EscolherPalavraAleatoria(string categoriaEscolhida)
     {
         Console.WriteLine("Escolhendo palavra aleatória...");
 
         string[] palavras;
 
-        if (categoriaEscolhida == 1)
+        if (categoriaEscolhida == "1")
         {
             palavras = [ 
             "ABACATE",
@@ -120,7 +120,7 @@ class Program
             "UVAIA" ];
         }
 
-        else if (categoriaEscolhida == 2)
+        else if (categoriaEscolhida == "2")
         {
             palavras = [
             "ÁGUIA",
@@ -233,9 +233,9 @@ class Program
             Console.WriteLine("Letras Erradas: " + string.Join(" ", letrasErradas));
             Console.WriteLine("Erros cometidos: " + quantidadeErros);
 
-            int opcao = OpcaoPalavraInteira();
+            string opcao = OpcaoPalavraInteira();
 
-            if (opcao == 1)
+            if (opcao == "1")
             {
                 Console.Write("Digite uma letra: ");
                 string? strLetra = Console.ReadLine();
@@ -297,9 +297,10 @@ class Program
                     continue;
                 }
 
-                string palavraChute = (strPalavra.ToUpper());
+                string palavraChuteLimpa = RemoverAcentos(strPalavra.ToUpper());
+                string palavraSecretaLimpa = RemoverAcentos(palavraAleatoria);
 
-                if (palavraChute == palavraAleatoria)
+                if (palavraChuteLimpa == palavraSecretaLimpa)
                 {
                     jogadorAcertouPalavra = true;
                 }
@@ -336,8 +337,8 @@ class Program
 
         foreach (char c in formaNormalizada)
         {
-            System.Globalization.UnicodeCategory categoria = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c);
-            if (categoria != System.Globalization.UnicodeCategory.NonSpacingMark)
+            System.Globalization.UnicodeCategory tipoChar = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c);
+            if (tipoChar != System.Globalization.UnicodeCategory.NonSpacingMark)
             {
                 sb.Append(c);
             }

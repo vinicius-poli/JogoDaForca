@@ -10,6 +10,8 @@ Desenvolvido durante o curso Fullstack da [Academia do Programador](https://www.
 
 O computador escolherá, de maneira aleatória, uma palavra entre várias possibilidades, e o jogador deve chutar, letra por letra, ou a palavra inteira até adivinhá-la.
 
+Primeiramente o programa perguntará qual a categoria de palavras o jogador deseja.
+
 Os jogadores são solicitados a inserir uma letra por vez ou palavra inteira através do console. Se a letra estiver presente na palavra, ela será revelada nas posições correspondentes. Se a letra não estiver presente na palavra, uma parte do boneco da forca será desenhada. Se o o jogador optar por tentar a palavra inteira e errar, conta como um erro, se acertar ganha e finaliza o jogo.
 
 Se o jogador chutar mais de 5 letras erradas, ele perde.

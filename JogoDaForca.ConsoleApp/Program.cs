@@ -63,6 +63,22 @@ class Program
         return categoriaEscolhida;
     }
    
+    static int OpcaoPalavraInteira()
+    {
+        Console.WriteLine("Deseja tentar auma letra ou a palavra INTEIRA?");
+        Console.WriteLine("1- Letra");
+        Console.WriteLine("2- Palavra Inteira");
+        int opcaoLetraPalavra = Convert.ToInt32(Console.ReadLine());
+
+        while (opcaoLetraPalavra != 1 && opcaoLetraPalavra != 2)
+        {
+            Console.WriteLine("Digite uma opção válida!");
+            opcaoLetraPalavra = Convert.ToInt32(Console.ReadLine());
+        }
+
+        return opcaoLetraPalavra;
+    }
+
     static string EscolherPalavraAleatoria(int categoriaEscolhida)
     {
         Console.WriteLine("Escolhendo palavra aleatória...");
@@ -203,64 +219,97 @@ class Program
         bool jogadorPerdeu = false;
 
         int quantidadeErros = 0;
+        
+        
 
         List<char> letrasTentadas = new List<char>();
         List<char> letrasErradas = new List<char>();               
 
         while (jogadorAcertouPalavra == false && jogadorPerdeu == false) 
         {
-
             DesenharForca(quantidadeErros);
 
             Console.WriteLine("Letras acertadas: " + string.Join("", letrasAcertadas));
             Console.WriteLine("Letras Erradas: " + string.Join(" ", letrasErradas));
             Console.WriteLine("Erros cometidos: " + quantidadeErros);
 
-            Console.Write("Digite uma letra: ");
-            string? strLetra = Console.ReadLine();
+            int opcao = OpcaoPalavraInteira();
 
-            if (string.IsNullOrWhiteSpace(strLetra))
+            if (opcao == 1)
             {
-                Console.WriteLine("Digite um caractere válido!");
-                Console.ReadLine();
-                continue;
-            }
+                Console.Write("Digite uma letra: ");
+                string? strLetra = Console.ReadLine();
 
-            char letraChute = char.ToUpper(Convert.ToChar(strLetra));
-
-            if (letrasTentadas.Contains(letraChute))
-            {
-                Console.WriteLine("Você já tentou essa letra! Pressione ENTER para continuar.");
-                Console.ReadLine();
-                continue;
-            }
-
-            letrasTentadas.Add(letraChute);
-            
-            char letraChuteLimpa = RemoverAcentos(letraChute.ToString())[0];
-
-            bool letraFoiEncontrada = false;
-
-            for (int contador = 0; contador < palavraAleatoria.Length; contador++)
-            {
-                char letraAtualOriginal = palavraAleatoria[contador];
-                char letraAtualLimpa = RemoverAcentos(letraAtualOriginal.ToString())[0];
-                
-                if (letraChuteLimpa == letraAtualLimpa)
+                if (string.IsNullOrWhiteSpace(strLetra))
                 {
-                    letrasAcertadas[contador] = letraAtualOriginal;
-                    letraFoiEncontrada = true;
+                    Console.WriteLine("Digite um caractere válido!");
+                    Console.ReadLine();
+                    continue;
                 }
+
+                char letraChute = char.ToUpper(Convert.ToChar(strLetra));
+
+                if (letrasTentadas.Contains(letraChute))
+                {
+                    Console.WriteLine("Você já tentou essa letra! Pressione ENTER para continuar.");
+                    Console.ReadLine();
+                    continue;
+                }
+
+                letrasTentadas.Add(letraChute);
+                
+                char letraChuteLimpa = RemoverAcentos(letraChute.ToString())[0];
+
+                bool letraFoiEncontrada = false;
+
+                for (int contador = 0; contador < palavraAleatoria.Length; contador++)
+                {
+                    char letraAtualOriginal = palavraAleatoria[contador];
+                    char letraAtualLimpa = RemoverAcentos(letraAtualOriginal.ToString())[0];
+                    
+                    if (letraChuteLimpa == letraAtualLimpa)
+                    {
+                        letrasAcertadas[contador] = letraAtualOriginal;
+                        letraFoiEncontrada = true;
+                    }
+                    
+                }
+
+                if (letraFoiEncontrada == false)
+                {
+                    letrasErradas.Add(letraChute);
+                    quantidadeErros++;
+                }
+                                
+                jogadorAcertouPalavra = palavraAleatoria == string.Join("", letrasAcertadas);
                 
             }
 
-            if (letraFoiEncontrada == false)
+            else
             {
-                letrasErradas.Add(letraChute);
-                quantidadeErros++;
+                Console.Write("Digite a palavra inteira: ");
+                string? strPalavra = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(strPalavra))
+                {
+                    Console.WriteLine("Digite uma palavra válida!");
+                    Console.ReadLine();
+                    continue;
+                }
+
+                string palavraChute = (strPalavra.ToUpper());
+
+                if (palavraChute == palavraAleatoria)
+                {
+                    jogadorAcertouPalavra = true;
+                }
+
+                else
+                {
+                    quantidadeErros++;
+                }
             }
-                            
-            jogadorAcertouPalavra = palavraAleatoria == string.Join("", letrasAcertadas);
+            
             jogadorPerdeu = quantidadeErros > 5;
 
             if (jogadorAcertouPalavra)

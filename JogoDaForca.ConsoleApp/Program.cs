@@ -101,7 +101,10 @@ class Program
         bool jogadorAcertouPalavra = false;
         bool jogadorPerdeu = false;
 
-        int quantidadeErros = 0;               
+        int quantidadeErros = 0;
+
+        List<char> letrasTentadas = new List<char>();
+        List<char> letrasErradas = new List<char>();               
 
         while (jogadorAcertouPalavra == false && jogadorPerdeu == false) 
         {
@@ -109,6 +112,7 @@ class Program
             DesenharForca(quantidadeErros);
 
             Console.WriteLine("Letras acertadas: " + string.Join("", letrasAcertadas));
+            Console.WriteLine("Letras Erradas: " + string.Join(" ", letrasErradas));
             Console.WriteLine("Erros cometidos: " + quantidadeErros);
 
             Console.Write("Digite uma letra: ");
@@ -123,6 +127,15 @@ class Program
 
             char letraChute = char.ToUpper(Convert.ToChar(strLetra));
 
+            if (letrasTentadas.Contains(letraChute))
+            {
+                Console.WriteLine("Você já tentou essa letra! Pressione ENTER para continuar.");
+                Console.ReadLine();
+                continue;
+            }
+
+            letrasTentadas.Add(letraChute);
+
             bool letraFoiEncontrada = false;
 
             for (int contador = 0; contador < palavraAleatoria.Length; contador++)
@@ -133,12 +146,16 @@ class Program
                 {
                     letrasAcertadas[contador] = letraAtual;
                     letraFoiEncontrada = true;
-                }                    
+                }
+                
             }
 
             if (letraFoiEncontrada == false)
+            {
+                letrasErradas.Add(letraChute);
                 quantidadeErros++;
-                
+            }
+                            
             jogadorAcertouPalavra = palavraAleatoria == string.Join("", letrasAcertadas);
             jogadorPerdeu = quantidadeErros > 5;
 

@@ -15,12 +15,14 @@ Requisitos
 class Program
 { 
     static void Main(string[] args)
-    {
+    {   
+        int categoria = EscolherCategoria();
+        
         while (true)
         {
             ExibirCabecalho();            
 
-            string palavraAleatoria = EscolherPalavraAleatoria();
+            string palavraAleatoria = EscolherPalavraAleatoria(categoria);
 
             char[] letrasAcertadas = PreencherLetrasAcertadas(palavraAleatoria);
             
@@ -30,7 +32,7 @@ class Program
                 break;              
         }
     }
-
+    
     static void ExibirCabecalho()
     {
         Console.Clear();
@@ -38,12 +40,38 @@ class Program
         Console.WriteLine("Jogo da Forca");
         Console.WriteLine("-----------------------");
     }
-     
-    static string EscolherPalavraAleatoria()
+
+    static int EscolherCategoria()
+    {   
+        ExibirCabecalho();
+        Console.WriteLine("Escolha uma categoria:");
+        Console.WriteLine("1 - Frutas");
+        Console.WriteLine("2 - Animais");
+        Console.WriteLine("3 - Países");
+        int categoriaEscolhida = Convert.ToInt32(Console.ReadLine());
+        
+        while (categoriaEscolhida != 1 && categoriaEscolhida != 2 && categoriaEscolhida != 3)
+        {
+            Console.WriteLine("Categoria Inválida!");
+            Console.WriteLine("Escolha uma categoria:");
+            Console.WriteLine("1 - Frutas");
+            Console.WriteLine("2 - Animais");
+            Console.WriteLine("3 - Países");
+            categoriaEscolhida = Convert.ToInt32(Console.ReadLine());
+        }
+        
+        return categoriaEscolhida;
+    }
+   
+    static string EscolherPalavraAleatoria(int categoriaEscolhida)
     {
         Console.WriteLine("Escolhendo palavra aleatória...");
 
-        string[] palavras = [
+        string[] palavras;
+
+        if (categoriaEscolhida == 1)
+        {
+            palavras = [ 
             "ABACATE",
             "ABACAXI",
             "ACEROLA",
@@ -73,8 +101,81 @@ class Program
             "TANGERINA",
             "UMBU",
             "UVA",
-            "UVAIA"
-        ];
+            "UVAIA" ];
+        }
+
+        else if (categoriaEscolhida == 2)
+        {
+            palavras = [
+            "ÁGUIA",
+            "BALEIA",
+            "CACHORRO",
+            "CANGURU",
+            "CAVALO",
+            "COELHO",
+            "CORUJA",
+            "CROCODILO",
+            "ELEFANTE",
+            "FALCÃO",
+            "FOCA",
+            "GALINHA",
+            "GATO",
+            "GIRAFA",
+            "GORILA",
+            "HIPOPÓTAMO",
+            "JACARÉ",
+            "LEÃO",
+            "LOBO",
+            "MACACO",
+            "PANDA",
+            "PATO",
+            "PAVÃO",
+            "PINGUIM",
+            "RAPOSA",
+            "RINOCERONTE",
+            "TARTARUGA",
+            "TIGRE",
+            "URSO",
+            "ZEBRA"
+            ];
+        }
+
+        else
+        {
+            palavras = [
+            "ALEMANHA",
+            "ANGOLA",
+            "ARGENTINA",
+            "AUSTRÁLIA",
+            "BÉLGICA",
+            "BOLÍVIA",
+            "BRASIL",
+            "CANADÁ",
+            "CHILE",
+            "CHINA",
+            "COLÔMBIA",
+            "COREIA DO SUL",
+            "CUBA",
+            "EGITO",
+            "ESPANHA",
+            "ESTADOS UNIDOS",
+            "FRANÇA",
+            "ÍNDIA",
+            "INDONÉSIA",
+            "ITÁLIA",
+            "JAPÃO",
+            "MÉXICO",
+            "NIGÉRIA",
+            "NORUEGA",
+            "PERU",
+            "PORTUGAL",
+            "REINO UNIDO",
+            "RÚSSIA",
+            "SUÉCIA",
+            "SUÍÇA"
+            ];
+        }
+        
 
         int indiceAleatorio = RandomNumberGenerator.GetInt32(palavras.Length);
 

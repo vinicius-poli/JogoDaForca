@@ -135,16 +135,19 @@ class Program
             }
 
             letrasTentadas.Add(letraChute);
+            
+            char letraChuteLimpa = RemoverAcentos(letraChute.ToString())[0];
 
             bool letraFoiEncontrada = false;
 
             for (int contador = 0; contador < palavraAleatoria.Length; contador++)
             {
-                char letraAtual = palavraAleatoria[contador];
+                char letraAtualOriginal = palavraAleatoria[contador];
+                char letraAtualLimpa = RemoverAcentos(letraAtualOriginal.ToString())[0];
                 
-                if (letraChute == letraAtual)
+                if (letraChuteLimpa == letraAtualLimpa)
                 {
-                    letrasAcertadas[contador] = letraAtual;
+                    letrasAcertadas[contador] = letraAtualOriginal;
                     letraFoiEncontrada = true;
                 }
                 
@@ -174,6 +177,23 @@ class Program
             }
         }
         
+    }
+
+    static string RemoverAcentos(string acento)
+    {
+        string formaNormalizada = acento.Normalize(System.Text.NormalizationForm.FormD);
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+        foreach (char c in formaNormalizada)
+        {
+            System.Globalization.UnicodeCategory categoria = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c);
+            if (categoria != System.Globalization.UnicodeCategory.NonSpacingMark)
+            {
+                sb.Append(c);
+            }
+        }
+
+        return sb.ToString().Normalize(System.Text.NormalizationForm.FormC);
     }
 
     static void DesenharForca(int quantidadeErros)
